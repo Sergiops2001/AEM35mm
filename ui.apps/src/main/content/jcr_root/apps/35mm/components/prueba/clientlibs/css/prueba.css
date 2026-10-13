@@ -1,0 +1,12 @@
+﻿/* Estilos del componente de prueba */
+.prueba-card {
+    border: 2px dashed #e63946;
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: #fff8f8;
+}
+
+.prueba-card h2 {
+    color: #e63946;
+    margin: 0 0 0.5rem;
+}

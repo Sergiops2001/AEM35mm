@@ -1,0 +1,65 @@
+/* =============================================
+   CONTENEDOR PRINCIPAL
+   ============================================= */
+.carouselbanner-comp {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #B3B3B3;
+    background: linear-gradient(145deg, #181818, #1F1F1F);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.4);
+    margin-top: 50px;
+    border-radius: 20px;
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+}
+
+/* =============================================
+   LA IMAGEN Y LA SLIDE
+   ============================================= */
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Todas ocultas por defecto para no pisarse */
+    transition: opacity 0.8s ease-in-out;
+    z-index: 1;
+}
+
+/* La slide activa siempre se muestra */
+.carousel-slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+.carousel-slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* =============================================
+   EL OVERLAY DE TEXTO
+   ============================================= */
+.carousel-slide-overlay {
+    position: absolute;
+    top: 60%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: transparent;
+    padding: 40px 30px 20px 30px;
+}
+
+.carousel-slide-text {
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+

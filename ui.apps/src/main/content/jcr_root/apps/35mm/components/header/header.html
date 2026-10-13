@@ -1,0 +1,12 @@
+<sly
+    data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+    data-sly-call="${clientlib.css @ categories='35mm.components.header'}" />
+<div class="header">
+        <div class="logo-header">
+            <sly data-sly-resource="${'logo' @ resourceType='core/wcm/components/image/v3/image'}"></sly>
+        </div>
+        <div class="navigation-header">
+            <sly data-sly-resource="${'navigation' @ resourceType='minsait-viajes/components/navigation'}">
+            </sly>
+        </div>
+</div>

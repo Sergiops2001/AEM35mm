@@ -1,0 +1,50 @@
+<sly data-sly-use.model="com.mm35.core.models.MoviesModel"/>
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+     data-sly-call="${clientlib.css @ categories='35mm.components.movies'}"/>
+<sly data-sly-use.templates="core/wcm/components/commons/v1/templates.html"/>
+
+<!--/* Plantilla única de tarjeta: mismas clases que ya tenías, se llama 3 veces */-->
+<template data-sly-template.movieCard="${@ pelicula}">
+    <div class="pelicula-card">
+        <img class="pelicula-poster"
+             data-sly-test="${pelicula.poster_path}"
+             src="${pelicula.poster_path}"
+             alt="${pelicula.title}"/>
+        <p class="pelicula-title" data-sly-test="${pelicula.title}">${pelicula.title}</p>
+    </div>
+</template>
+
+<!--/* Cada condición se calcula UNA vez: checkbox activo Y la lista tiene datos */-->
+<sly data-sly-test.showDestacadas="${model.mostrarDestacadas && model.peliculasDestacadas}"/>
+<sly data-sly-test.showRecientes="${model.mostrarRecientes && model.peliculasRecientes}"/>
+<sly data-sly-test.showValoradas="${model.mostrarValoradas && model.peliculasValoradas}"/>
+<sly data-sly-test.hasContent="${showDestacadas || showRecientes || showValoradas}"/>
+
+<div class="movie-component" data-sly-test="${showDestacadas}">
+    <h2>Peliculas destacadas</h2>
+    <div class="peliculas-destacadas-tarjet">
+        <sly data-sly-list.pelicula="${model.peliculasDestacadas}">
+            <sly data-sly-call="${movieCard @ pelicula = pelicula}"/>
+        </sly>
+    </div>
+</div>
+
+<div class="movie-component" data-sly-test="${showRecientes}">
+    <h2>Peliculas recientes</h2>
+    <div class="peliculas-destacadas-tarjet">
+        <sly data-sly-list.pelicula="${model.peliculasRecientes}">
+            <sly data-sly-call="${movieCard @ pelicula = pelicula}"/>
+        </sly>
+    </div>
+</div>
+
+<div class="movie-component" data-sly-test="${showValoradas}">
+    <h2>Peliculas mejor valoradas</h2>
+    <div class="peliculas-destacadas-tarjet">
+        <sly data-sly-list.pelicula="${model.peliculasValoradas}">
+            <sly data-sly-call="${movieCard @ pelicula = pelicula}"/>
+        </sly>
+    </div>
+</div>
+
+<sly data-sly-call="${templates.placeholder @ isEmpty=!hasContent, classAppend='component-movies'}"/>

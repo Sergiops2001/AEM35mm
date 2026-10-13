@@ -1,0 +1,26 @@
+<sly data-sly-use.model="com.mm35.core.models.CarouselBannerModel"/>
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+    data-sly-call="${clientlib.all @ categories='35mm.components.carouselbanner'}" />
+
+<div class="carouselbanner-comp">
+    <!-- El data-sly-list va en un bloque sly para no ensuciar el HTML -->
+    <sly data-sly-list.carousel="${model.carouselBannerContent}">
+        
+        <!-- carouselList.first devuelve true solo en la primera vuelta -->
+        <div class="carousel-slide ${carouselList.first ? 'active' : ''}">
+            
+            <!-- Mostramos imagen solo si el autor ha seleccionado una -->
+            <img class="carousel-slide-image" 
+                 src="${carousel.fileReference @ context='uri'}" 
+                 alt="${carousel.carouselText}"
+                 data-sly-test="${carousel.fileReference}"/>
+            
+            <!-- Overlay de texto -->
+            <div class="carousel-slide-overlay">
+                <p class="carousel-slide-text">${carousel.carouselText}</p>
+            </div>
+            
+        </div>
+    </sly>
+</div>
+

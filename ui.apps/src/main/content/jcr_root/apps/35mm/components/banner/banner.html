@@ -1,0 +1,15 @@
+<sly data-sly-use.model="com.mm35.core.models.BannerModel"
+    data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+    data-sly-call="${clientlib.css @ categories='35mm.components.banner'}" />
+
+<div class="banner-card">
+        <div class="image-banner">
+            <sly data-sly-resource="${'imagen' @ resourceType='core/wcm/components/image/v3/image'}"></sly>
+        </div>
+        <div class="banner-text" data-sly-test="${model.banner}">
+            <div class="companyTitle">${model.companyTitle}</div>
+            <div class="company-item-card" data-sly-repeat.company="${model.companies}">
+                <div class="companyTextLink"><a href="${company.companyLink}">${company.companyLinkText}</a></div>
+            </div>
+        </div>
+    </div>

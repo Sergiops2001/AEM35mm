@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
+          jcr:primaryType="nt:unstructured"
+          jcr:title="Movies"
+          sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+        <items jcr:primaryType="nt:unstructured">
+            <column
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                <items jcr:primaryType="nt:unstructured">
+                    <mostrarDestacadas
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                            fieldLabel="Mostrar destacadas"
+                            fieldDescription="Si está marcado, se muestran las peliculas destacadas"
+                            name="./mostrarDestacadas"
+                            text="Mostrar peliculas Destacadas"
+                            value="{Boolean}true"
+                            uncheckedValue="{Boolean}false"/>
+                    <mostrarRecientes
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                            fieldLabel="Mostrar recientes"
+                            fieldDescription="Si está marcado, se muestran las peliculas recientes"
+                            name="./mostrarRecientes"
+                            text="Mostrar peliculas Recientes"
+                            value="{Boolean}true"
+                            uncheckedValue="{Boolean}false"/>
+                    <mostrarValoradas
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                            fieldLabel="Mostrar peliculas mejor valoradas"
+                            fieldDescription="Si está marcado, se muestran las peliculas mejor valoradas"
+                            name="./mostrarValoradas"
+                            text="Mostrar peliculas mejor valoradas"
+                            value="{Boolean}true"
+                            uncheckedValue="{Boolean}false"/>
+
+                </items>
+            </column>
+        </items>
+    </content>
+</jcr:root>

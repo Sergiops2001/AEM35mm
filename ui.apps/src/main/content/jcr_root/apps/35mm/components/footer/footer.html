@@ -1,0 +1,42 @@
+<sly data-sly-use.model="com.mm35.core.models.FooterModel"/>
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+    data-sly-call="${clientlib.css @ categories='35mm.components.footer'}" />
+
+<footer class="footer-comp">
+    <div class="footer-main-content">
+
+        <!-- Links Section -->
+        <div class="footer-links-wrapper">
+            <div class="footer-column" data-sly-test="${model.legalLinks}">
+                <h4 class="footer-column-title">Legal</h4>
+                <div class="footer-link-item" data-sly-repeat.legal="${model.legalLinks}">
+                    <a href="${legal.legalLink}">${legal.legalLinkText}</a>
+                </div>
+            </div>
+            <div class="footer-column" data-sly-test="${model.helpNavigation}">
+                <h4 class="footer-column-title">Ayuda</h4>
+                <div class="footer-link-item" data-sly-repeat.help="${model.helpNavigation}">
+                    <a href="${help.helpNavigationLink}">${help.helpNavigationText}</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Media Section -->
+        <div class="footer-social" data-sly-test="${model.redesSociales}">
+            <h4 class="footer-column-title">Síguenos</h4>
+            <div class="social-icons-container">
+                <a class="social-icon" data-sly-repeat.redSocial="${model.redesSociales}" href="${redSocial.link}" target="_blank" rel="noopener noreferrer">
+                    <img data-sly-test="${redSocial.fileReference}" src="${redSocial.fileReference}" alt="Social Icon">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Text Section -->
+    <div class="footer-bottom">
+        <p class="footer-text" data-sly-test="${model.footerText}">${model.footerText}</p>
+        <div class="footer-bottom-logo" data-sly-test="${model.companyLogo}">
+            <img src="${model.companyLogo}" alt="Company Logo" class="footer-logo-bottom">
+        </div>
+    </div>
+</footer>

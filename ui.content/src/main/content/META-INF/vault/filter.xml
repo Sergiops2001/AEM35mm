@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/35mm" mode="merge"/>
+    <filter root="/content/35mm" mode="merge"/>
+    <filter root="/content/dam/35mm" mode="merge">
+        <exclude pattern="/content/dam/35mm(/.*)?"/>
+        <include pattern="/content/dam/35mm/jcr:content(/.*)?"/>
+    </filter>
+    <filter root="/content/dam/35mm/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/35mm" mode="merge"/>
+</workspaceFilter>

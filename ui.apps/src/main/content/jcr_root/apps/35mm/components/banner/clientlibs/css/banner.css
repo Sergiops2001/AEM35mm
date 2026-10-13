@@ -1,0 +1,129 @@
+.footer-card {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    color: #333;
+    background-color: inherit;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+    padding: 20px 0;
+    margin-top: 20px;
+}
+
+.footer-card a {
+    text-decoration: none;
+    color: inherit;
+    /* Para que use el blanco del padre */
+}
+
+.footer-first-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 40px;
+}
+
+.logo-footer {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 10px;
+    width: 100px;
+    height: 100px;
+    padding: 10px 40px;
+    border-radius: 0.1rem;
+}
+
+.company-item {
+    margin: 20px;
+}
+
+.companyTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.contact-item {
+    margin: 20px;
+}
+
+.contactTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.form-footer {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.formTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.formButton {
+    color: white;
+    background-color: #000;
+    border-radius: 0.25rem;
+    padding: 10px 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.formButton:hover {
+    background-color: #444;
+}
+
+.footer-second-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 20px;
+}
+
+.cards-footer-social {
+    display: flex;
+    gap: 15px;
+}
+
+.card-footer-social img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.card-footer-social img:hover {
+    transform: scale(1.1);
+}
+
+.footer-text {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+    gap: 3px;
+}

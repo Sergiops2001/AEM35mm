@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    cq:adobeTargetExportFormat="html"
+    cq:allowedTemplates="[/conf/35mm/settings/wcm/templates/(?!page-).*]"
+    cq:conf="/conf/35mm"
+    jcr:primaryType="sling:OrderedFolder"
+    jcr:title="35mm Fragments"
+    sling:configRef="/conf/35mm">
+    <us/>
+</jcr:root>
