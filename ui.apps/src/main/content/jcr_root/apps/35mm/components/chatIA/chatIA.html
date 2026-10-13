@@ -1,0 +1,12 @@
+<sly
+        data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+        data-sly-call="${clientlib.css @ categories='35mm.components.chatIA'}" />
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+     data-sly-call="${clientlib.js @ categories='35mm.components.chatIA'}" />
+<div class="component-chatIA" data-current-resource="${resource.path}">
+    <div class="chat-mensajes" id="chat-mensajes"> </div>
+    <form class="chat-formulario" id="chat-formulario">
+        <input type="text" id="chatInput" maxlength="500" autocomplete="off" placeholder="Pregunta sobre peliculas...">
+        <button id="chatButton" onclick="buscadorPelis()" type="submit">Buscar</button>
+    </form>
+</div>
