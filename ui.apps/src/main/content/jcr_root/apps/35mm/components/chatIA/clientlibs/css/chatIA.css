@@ -7,5 +7,140 @@
     padding: 40px 20px;
     box-sizing: border-box;
     color: #B3B3B3;
-    background: linear-gradient(145deg, #181818, #1F1F1F);
+}
+
+
+.chat-mensajes{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 700px;
+    overflow-y: auto;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+/* Chrome, Safari, Opera y Edge moderno */
+.chat-mensajes::-webkit-scrollbar {
+    display: none;
+}
+
+.chat-mensaje{
+    background-color: #1F1F1F;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    white-space: pre-wrap;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.chat-mensaje-visible{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.chat-mensaje-usuario{
+    align-self: flex-end;
+    border-bottom-right-radius: 4px
+}
+
+.chat-mensaje-ia{
+    align-self: flex-start;
+    border-bottom-left-radius: 4px
+}
+
+.chat-mensaje-error{
+    align-self: flex-start;
+    color: rgb(229, 9, 20);
+    border-color: rgba(229, 9, 20, 0.4);
+    background-color: rgba(229, 9, 20, 0.08);
+}
+
+.chat-formulario{
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 900px;
+    margin-top: 12px;
+    box-sizing: border-box;
+}
+
+
+#chatInput{
+    flex: 1 1 auto; /* el input ocupa el espacio que le deja el boton */
+    min-width: 0;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 15px;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+#chatInput::placeholder{
+    color: #888888;
+}
+
+#chatInput:focus {
+    border-color: #B3B3B3;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#chatButton{
+    flex: 0 0 auto; /* el boton ocupa lo que su texto*/
+    padding: 8px 20px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: rgb(229, 9, 20);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+}
+
+#chatButton:hover,
+#chatButton:focus-visible {
+    box-shadow: 0 8px 15px rgba(229, 9, 20, 0.4);
+    outline: none;
+}
+
+#chatButton:disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+
+@media (max-width: 480px) {
+    .component-chatIA { padding: 24px 12px; }
+    .chat-mensaje { max-width: 88%; }
+}
+
+@keyframes parpadeo {
+    0% {opacity: 0.3 }
+    50% {opacity: 1 }
+    100% {opacity: 0.3 }
+}
+
+.contenedor-pensando{
+    align-self: flex-start;
+    max-width: 75%;
+    padding: 10px 14px;
+    color: #888888;
+    font-style: italic;
+    /* ---- la animación ---- */
+    animation: parpadeo 1.5s ease-in-out infinite;
 }

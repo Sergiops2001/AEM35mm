@@ -18,6 +18,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.List;
+import java.util.Map;
 
 @Component(service = GroqService.class, immediate = true)
 @Designate(ocd = GroqApiConfig.class)
@@ -52,7 +54,7 @@ public class GroqServiceImpl implements GroqService {
 
     @Override
     //Preguntar al chat de la IA de Groq
-    public String preguntarGroq(String pregunta) {
+    public String preguntarGroq(String pregunta, List<Map<String, String>> historial) {
         if (pregunta == null || pregunta.trim().isEmpty()){
             return null;
         }
@@ -60,27 +62,36 @@ public class GroqServiceImpl implements GroqService {
             LOG.error("No hay apiKey de Groq configurada");
             return null;
         }
-        String cuerpo = construirCuerpo(pregunta.trim());
+        String cuerpo = construirCuerpo(pregunta.trim(), historial);
         String respuestaJSON = llamarApiGroq(cuerpo);
         return parsearRespuesta(respuestaJSON);
     }
 
     // Construir cuerpo de la petición
-    private String construirCuerpo(String pregunta){
+    private String construirCuerpo(String pregunta, List<Map<String, String>> historial){
+
+        JsonArray mensajes = new JsonArray();
+
         // Creamos el rol de sistema con las instrucciones del modelo
         JsonObject sistema = new JsonObject();
         sistema.addProperty("role", "system");
         sistema.addProperty("content", SYSTEM_PROMPT);
+        mensajes.add(sistema);
 
-        // creamos el rol de usuario con la pregunta
+        // añadimos el historial, si es que hay. Añadimos tanto los mensajes de user como los de assistant
+        if (historial != null){
+            for (Map<String, String> anterior : historial){
+                JsonObject mensaje = new JsonObject();
+                mensaje.addProperty("role", anterior.get("role"));
+                mensaje.addProperty("content", anterior.get("content"));
+                mensajes.add(mensaje);
+            }
+        }
+
+        // creamos el rol de usuario con la pregunta actual
         JsonObject usuario = new JsonObject();
         usuario.addProperty("role", "user");
         usuario.addProperty("content", pregunta);
-
-        // falta el rol de assistant que son las respuestas anteriores de la IA, pero de momento no enviamos el historial
-
-        JsonArray mensajes = new JsonArray();
-        mensajes.add(sistema);
         mensajes.add(usuario);
 
         JsonObject cuerpo = new JsonObject();

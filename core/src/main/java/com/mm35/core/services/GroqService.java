@@ -8,6 +8,6 @@ public interface GroqService {
     /**
      * Funciones para la API de Groq
      */
-    String preguntarGroq(String pregunta);
+    String preguntarGroq(String pregunta, List<Map<String, String>> historial);
 }
 
