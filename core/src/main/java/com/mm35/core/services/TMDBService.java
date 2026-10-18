@@ -12,5 +12,6 @@ public interface TMDBService {
     List<Map<String, String>> peliculasRecientes();
     List<Map<String, String>> peliculasValoradas();
     List<Map<String, String>> buscarPeliculas(String query);
+    Map<String,String> detallePelicula( String id);
 }
 

@@ -6,11 +6,13 @@
 <!--/* Plantilla única de tarjeta: mismas clases que ya tenías, se llama 3 veces */-->
 <template data-sly-template.movieCard="${@ pelicula}">
     <div class="pelicula-card">
+        <a href="/content/35mm/us/en/detalles.html?id=${pelicula.id}">
         <img class="pelicula-poster"
              data-sly-test="${pelicula.poster_path}"
              src="${pelicula.poster_path}"
              alt="${pelicula.title}"/>
         <p class="pelicula-title" data-sly-test="${pelicula.title}">${pelicula.title}</p>
+        </a>
     </div>
 </template>
 

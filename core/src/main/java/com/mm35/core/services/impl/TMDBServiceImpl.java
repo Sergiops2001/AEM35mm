@@ -63,22 +63,26 @@ public class TMDBServiceImpl implements TMDBService {
         LOG.info("TMDBService activado con apiBaseUrl: {}", apiBaseUrl);
     }
 
-
+    //***PELICULAS INICIO***
     @Override
     //Peliculas destacadas
     public List<Map<String, String>> peliculasDestacadas() {
         return peliculasPorCategoria(TMDBCategoria.POPULARES);
     }
+    @Override
     //Peliculas recientes
     public List<Map<String, String>> peliculasRecientes() {
         return peliculasPorCategoria(TMDBCategoria.RECIENTES);
 
     }
+    @Override
     //Peliculas mejor valoradas
     public List<Map<String, String>> peliculasValoradas() {
         return peliculasPorCategoria(TMDBCategoria.MEJOR_VALORADAS);
     }
 
+    // ***BUSQUEDA DE PELICULAS***
+    @Override
     // buscar peliculas
     public List<Map<String, String>> buscarPeliculas(String query) {
         if (query == null || query.isEmpty()){
@@ -94,6 +98,33 @@ public class TMDBServiceImpl implements TMDBService {
         String queryCodificada = URLEncoder.encode(query, StandardCharsets.UTF_8);
         String base = this.apiBaseUrl.endsWith("/") ? apiBaseUrl : this.apiBaseUrl + "/";
         return base + TMDBCategoria.BUSCAR_PELICULA.path + "?query=" + queryCodificada + "&language=es-ES&page=1";
+    }
+
+    // ***DETALLES DE PELICULAS***
+
+    // detalles pelicula
+    @Override
+    public Map<String,String> detallePelicula( String id){
+        if (id == null || !id.trim().matches("\\d+")) {
+            LOG.debug("Id de pelicula no valido: {}", id);
+            return new HashMap<>();
+        }
+        String url = construirUrlDetalle(id.trim());
+        String respuestaJson = llamarApiGenerica(url);
+        if (respuestaJson == null) return new HashMap<>();
+        try {
+            JsonObject pelicula = JsonParser.parseString(respuestaJson).getAsJsonObject();
+            return extraerCamposPelicula(pelicula);
+        } catch (Exception e) {
+            LOG.error("No se pudo completar el detalle de la pelicula {}: {} " ,id, e.getMessage());
+            return new HashMap<>();
+        }
+    }
+    // construir url de detalle
+
+    private String construirUrlDetalle (String id){
+        String base = this.apiBaseUrl.endsWith("/") ? apiBaseUrl : this.apiBaseUrl + "/";
+        return base + "movie/" + id + "?language=es-ES";
     }
 
     // funciones compartidas por varias

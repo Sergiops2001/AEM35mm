@@ -1,8 +1,14 @@
-<sly
-        data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+<sly data-sly-use.model="com.mm35.core.models.DetallesPelisModel"/>
+<sly  data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
         data-sly-call="${clientlib.css @ categories='35mm.components.detallesPelis'}" />
-<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
-     data-sly-call="${clientlib.js @ categories='35mm.components.detallesPelis'}" />
-<div class="component-detallesPelis" data-current-resource="${resource.path}">
-
+<div class="component-detallesPelis">
+    <div class="card-detalles-pelicula" data-sly-test="${model.encontrada}">
+        <h1 data-sly-test="${model.titulo}" class="titulo-detalle-peli">${model.titulo}</h1>
+        <img class="poster detalle-pelicula"
+             alt="${model.titulo}"
+             data-sly-test="${model.poster}"
+             src="${model.poster}"
+        >
+    </div>
+    <p class="mensaje-error" data-sly-test="${!model.encontrada}">Pelicula no encontrada</p>
 </div>

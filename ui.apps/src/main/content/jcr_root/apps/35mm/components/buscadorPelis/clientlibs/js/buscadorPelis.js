@@ -36,19 +36,24 @@ function buscadorPelis() {
 function crearTarjetaPeli(peli) {
     const tarjeta = document.createElement("div");
     tarjeta.className = "resultado_peli";
+    const link = document.createElement("a");
+    link.className = "peli-link";
+    link.href = "/content/35mm/us/en/detalles.html?id=" + peli.id;
+
     if (peli.poster_path){
         const img = document.createElement("img");
         img.className = "poster_peli";
         img.src = peli.poster_path;
         img.alt = peli.title || "";
-        tarjeta.appendChild(img);
+        link.appendChild(img);
     }
     if (peli.title){
         const title = document.createElement("p");
         title.className = "movie_title";
         title.textContent = peli.title;
-        tarjeta.appendChild(title);
+        link.appendChild(title);
     }
+    tarjeta.appendChild(link);
     return tarjeta;
 }
 
