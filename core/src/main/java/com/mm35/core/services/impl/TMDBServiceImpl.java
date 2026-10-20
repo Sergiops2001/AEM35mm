@@ -19,10 +19,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import com.mm35.core.beans.DetallePelicula;
 
 
 @Component(service = TMDBService.class, immediate = true)
@@ -32,6 +31,10 @@ public class TMDBServiceImpl implements TMDBService {
     private static final Logger LOG = LoggerFactory.getLogger(TMDBServiceImpl.class);
 
     private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+
+    private static final String IMAGE_BACKGROUND_URL = "https://image.tmdb.org/t/p/w1280";
+
+    private static final String IMAGE_PROFILE_URL = "https://image.tmdb.org/t/p/w185";
 
     // Enum: cada categoría encapsula su propio path de TMDB.
     private enum TMDBCategoria {
@@ -51,6 +54,8 @@ public class TMDBServiceImpl implements TMDBService {
     private String apiKey;
 
     private HttpClient httpClient;
+
+
 
     @Activate
     @Modified
@@ -104,27 +109,175 @@ public class TMDBServiceImpl implements TMDBService {
 
     // detalles pelicula
     @Override
-    public Map<String,String> detallePelicula( String id){
+    public DetallePelicula detallePelicula( String id){
         if (id == null || !id.trim().matches("\\d+")) {
             LOG.debug("Id de pelicula no valido: {}", id);
-            return new HashMap<>();
+            return null;
         }
         String url = construirUrlDetalle(id.trim());
         String respuestaJson = llamarApiGenerica(url);
-        if (respuestaJson == null) return new HashMap<>();
+        if (respuestaJson == null) return null;
         try {
             JsonObject pelicula = JsonParser.parseString(respuestaJson).getAsJsonObject();
-            return extraerCamposPelicula(pelicula);
+            return extraerCamposPeliculaDetalles(pelicula);
         } catch (Exception e) {
             LOG.error("No se pudo completar el detalle de la pelicula {}: {} " ,id, e.getMessage());
-            return new HashMap<>();
+            return null;
         }
     }
     // construir url de detalle
 
     private String construirUrlDetalle (String id){
         String base = this.apiBaseUrl.endsWith("/") ? apiBaseUrl : this.apiBaseUrl + "/";
-        return base + "movie/" + id + "?language=es-ES";
+        return base + "movie/" + id + "?language=es-ES&append_to_response=credits";
+    }
+
+    // construir url imagen
+    private String urlFoto(String rutaFoto){
+        if (rutaFoto != null){
+            return IMAGE_PROFILE_URL + rutaFoto;
+        }
+        return null;
+    }
+
+    // extraer campos del JsonObject de Detalle y devolver DetallePelicula relleno
+    private DetallePelicula extraerCamposPeliculaDetalles(JsonObject pelicula ) {
+        DetallePelicula detallesPelicula  = new DetallePelicula();
+        detallesPelicula.setTitulo(leerTexto(pelicula, "title"));
+        detallesPelicula.setLema(leerTexto(pelicula, "tagline"));
+        detallesPelicula.setSinopsis(leerTexto(pelicula, "overview"));
+        // fecha formateada
+        String fecha = leerTexto(pelicula, "release_date");
+        if (fecha != null && fecha.length() >= 4){
+            detallesPelicula.setAnio(fecha.substring(0,4));
+        }
+        //duracion formateada
+        Integer duracion = (leerNumeroEntero(pelicula, "runtime"));
+        if (duracion != null && duracion > 0){
+            int calculoDuracionHoras = duracion/60;
+            int calculoDuracionMinutos = duracion %60;
+            String duracionFormateada = calculoDuracionHoras + "h " + calculoDuracionMinutos + "m";
+            detallesPelicula.setDuracion(duracionFormateada);
+        }
+        // total de votos
+        detallesPelicula.setVotos(leerNumeroEntero(pelicula, "vote_count"));
+        // puntuacion formateada
+        Double puntuacion = (leerNumeroDecimal(pelicula, "vote_average"));
+        if (puntuacion != null){
+            detallesPelicula.setPuntuacion(String.format(new Locale("es"),"%.1f", puntuacion));
+        }
+        // imagenes
+        // imagen de fondo
+        String fondo = (leerTexto(pelicula, "backdrop_path"));
+        if (fondo != null){
+            detallesPelicula.setFondo(IMAGE_BACKGROUND_URL + fondo);
+        }
+        // imagen de poster
+        String poster = (leerTexto(pelicula, "poster_path"));
+        if (poster != null){
+            detallesPelicula.setPoster(IMAGE_BASE_URL + poster);
+        }
+        // listas
+
+        // generos(genres), un array dentro de pelicula, recorrer el array y añadir el nombre a la lista del DTO
+        detallesPelicula.setGeneros(formatearGeneros(pelicula, "genres"));
+
+        // para el resto necesito extraer  credits
+        JsonObject credits = (leerObjeto(pelicula, "credits"));
+        if (credits != null){
+            detallesPelicula.setDirector(extraerDirector(credits, "crew"));
+            detallesPelicula.setReparto(extraerReparto(credits, "cast"));
+        }
+
+
+        return detallesPelicula;
+    }
+
+    // metodo auxiliar para formatear generos
+    private List<String> formatearGeneros(JsonObject json, String valor){
+        List<String> listaGeneros = new ArrayList<>(); // creacion de la lista para añadir en ella los generos
+        if (json.has(valor)) { // si tiene el valor que buscamos (genre)
+            JsonArray generosArray = json.getAsJsonArray(valor); // obtenemos ese valor como JsonArray
+            for (int i = 0; i < generosArray.size(); i ++){
+                JsonObject genero = generosArray.get(i).getAsJsonObject();
+                String generoNombre = leerTexto(genero, "name");
+                if (generoNombre != null){
+                    listaGeneros.add(generoNombre);
+                }
+            }
+        }
+        //devolver la lista llena
+        return listaGeneros;
+    }
+    // metodo auxiliar para extraer el DIRECTOR
+    private DetallePelicula.Persona extraerDirector(JsonObject json, String valor){
+        if (json.has(valor)) { // si tiene el valor que buscamos (crew)
+            JsonArray crewArray = json.getAsJsonArray(valor); // obtenemos ese valor como JsonArray
+            for (int i = 0; i < crewArray.size(); i ++){
+                JsonObject trabajo = crewArray.get(i).getAsJsonObject();
+                // con el valor name me valdria tanto para genero, crew y cast
+                if ("Director".equals(leerTexto(trabajo, "job"))){
+                    String nombre = leerTexto(trabajo, "name");
+                    String imagenDirector = leerTexto(trabajo, "profile_path");
+                    String imagenDirectorFormateada = urlFoto(imagenDirector);
+                    String papel = "Director";
+                    DetallePelicula.Persona persona = new DetallePelicula.Persona(nombre, papel, imagenDirectorFormateada);
+                    return persona;
+                }
+            }
+        }
+        return null;
+    }
+
+    // metodo auxiliar para extraer el REPARTO
+    private List<DetallePelicula.Persona> extraerReparto(JsonObject json, String valor){
+        List<DetallePelicula.Persona> reparto = new ArrayList<>(); // aqui guardaremos el director
+        if (json.has(valor)) { // si tiene el valor que buscamos (cast)
+            JsonArray castArray = json.getAsJsonArray(valor); // obtenemos ese valor como JsonArray
+            for (int i = 0; i < Math.min(castArray.size(), 5); i ++){
+                JsonObject actor = castArray.get(i).getAsJsonObject();
+                String nombre = leerTexto(actor, "name");
+                String papel = leerTexto(actor, "character");
+                String foto = leerTexto(actor,"profile_path");
+                String fotoFormateada = urlFoto(foto);
+
+                if (nombre!= null){
+                    reparto.add(new DetallePelicula.Persona(nombre, papel,fotoFormateada));
+                }
+            }
+        }
+        //devolver la lista del reparto
+        return reparto;
+    }
+
+    // metodo auxiliar para leer texto sin repetir has e isJsonNull
+    private String leerTexto(JsonObject json ,String clave){
+        if (json.has(clave) && !json.get(clave).isJsonNull()){
+            return json.get(clave).getAsString();
+        }
+        return null;
+    }
+    // leer objeto
+    private JsonObject leerObjeto(JsonObject json, String clave){
+        if (json.has(clave) && json.get(clave).isJsonObject()){
+            return json.getAsJsonObject(clave);
+        }
+        return null;
+    }
+
+    // metodo auxiliar para leer nummero entero sin repetir has e isJsonNull
+    private Integer leerNumeroEntero(JsonObject json , String clave){
+        if (json.has(clave) && !json.get(clave).isJsonNull()){
+            return json.get(clave).getAsInt();
+        }
+        return null;
+    }
+    // metodo auxiliar para leer numero decimal sin repetir has e isJsonNull
+    private Double leerNumeroDecimal(JsonObject json , String clave){
+        if (json.has(clave) && !json.get(clave).isJsonNull()){
+            return json.get(clave).getAsDouble();
+        }
+        return null;
     }
 
     // funciones compartidas por varias
@@ -202,3 +355,27 @@ public class TMDBServiceImpl implements TMDBService {
         }
     }
     }
+
+
+    /*
+     {
+    "id": 550,
+    "title": "El club de la lucha",
+    "tagline": "Las reglas no existen...",
+    "overview": "Un empleado de oficina insomne...",
+    "release_date": "1999-10-15",
+    "runtime": 139,
+    "vote_average": 8.438,
+    "vote_count": 30000,
+    "poster_path": "/abc.jpg",
+    "backdrop_path": "/xyz.jpg",
+    "genres": [ {"id": 18, "name": "Drama"}, {"id": 53, "name": "Suspense"} ],
+    "credits": {
+      "cast": [ {"name": "Brad Pitt", "character": "Tyler Durden", "order": 0, "profile_path":
+  "/..."}, ... ],
+      "crew": [ {"name": "David Fincher", "job": "Director", ...}, ... ]
+    }
+  }
+
+
+     */

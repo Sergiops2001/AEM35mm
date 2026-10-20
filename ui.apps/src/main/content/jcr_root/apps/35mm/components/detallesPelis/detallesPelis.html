@@ -1,14 +1,63 @@
 <sly data-sly-use.model="com.mm35.core.models.DetallesPelisModel"/>
-<sly  data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
-        data-sly-call="${clientlib.css @ categories='35mm.components.detallesPelis'}" />
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+     data-sly-call="${clientlib.css @ categories='35mm.components.detallesPelis'}"/>
 <div class="component-detallesPelis">
-    <div class="card-detalles-pelicula" data-sly-test="${model.encontrada}">
-        <h1 data-sly-test="${model.titulo}" class="titulo-detalle-peli">${model.titulo}</h1>
-        <img class="poster detalle-pelicula"
-             alt="${model.titulo}"
-             data-sly-test="${model.poster}"
-             src="${model.poster}"
-        >
-    </div>
-    <p class="mensaje-error" data-sly-test="${!model.encontrada}">Pelicula no encontrada</p>
+
+    <!--/* Ficha: solo si el servicio ha devuelto una pelicula. "peli" es un atajo para no repetir model.pelicula */-->
+    <section class="detalle" data-sly-test="${model.encontrada}" data-sly-set.peli="${model.pelicula}">
+
+        <!--/* aqui ira el backdrop (peli.fondo) como cabecera */-->
+
+        <div class="detalle-principal">
+            <!--/* Columna 1: poster */-->
+            <img class="detalle-poster"
+                 data-sly-test="${peli.poster}"
+                 src="${peli.poster}"
+                 alt="${peli.titulo}"/>
+
+            <!--/* Columna 2: datos de la pelicula */-->
+            <div class="detalle-info">
+                <h1 class="detalle-titulo">${peli.titulo}</h1>
+                <p class="detalle-lema" data-sly-test="${peli.lema}">${peli.lema}</p>
+
+                <!--/* Año, duracion y puntuacion */-->
+                <p class="detalle-meta">
+                    <span class="detalle-anio" data-sly-test="${peli.anio}">${peli.anio}</span>
+                    <span class="detalle-duracion" data-sly-test="${peli.duracion}">${peli.duracion}</span>
+                    <span class="detalle-puntuacion" data-sly-test="${peli.puntuacion}">${peli.puntuacion}/10
+                        <span class="detalle-votos" data-sly-test="${peli.votos}">(${peli.votos} votos)</span>
+                    </span>
+                </p>
+
+                <!--/* Generos: data-sly-list repite el <li> por cada genero */-->
+                <ul class="detalle-generos" data-sly-test="${peli.generos}" data-sly-list.genero="${peli.generos}">
+                    <li class="detalle-genero">${genero}</li>
+                </ul>
+
+                <p class="detalle-sinopsis" data-sly-test="${peli.sinopsis}">${peli.sinopsis}</p>
+            </div>
+        </div>
+
+        <!--/* Creditos: solo si hay director o reparto */-->
+        <div class="detalle-creditos" data-sly-test="${peli.director || peli.reparto}">
+            <li class="detalle-director">
+                <img class="detalle-foto" data-sly-test="${peli.director.foto}" src="${peli.director.foto}" alt="${peli.director.nombre}">
+                <span class="detalle-nombre">${peli.director.nombre}</span>
+                <span class="detalle-papel">${peli.director.papel}</span>
+            </li>
+
+            <div class="detalle-reparto-bloque" data-sly-test="${peli.reparto}">
+                <h2 class="detalle-subtitulo">Reparto</h2>
+                <ul class="detalle-reparto" data-sly-list.actor="${peli.reparto}">
+                    <li class="detalle-actor">
+                        <img class="detalle-foto" data-sly-test="${actor.foto}" src="${actor.foto}" alt="${actor.nombre}">
+                        <span class="detalle-nombre">${actor.nombre}</span>
+                        <span class="detalle-personaje" data-sly-test="${actor.papel}">${actor.papel}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <p class="detalle-error" data-sly-test="${!model.encontrada}">Película no encontrada</p>
 </div>

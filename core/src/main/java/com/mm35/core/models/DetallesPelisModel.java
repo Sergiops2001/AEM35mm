@@ -1,5 +1,6 @@
 package com.mm35.core.models;
 
+import com.mm35.core.beans.DetallePelicula;
 import com.mm35.core.services.TMDBService;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
@@ -11,8 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @Model(adaptables =  SlingHttpServletRequest.class,
        defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
@@ -28,8 +27,7 @@ public class DetallesPelisModel {
     @OSGiService
     private TMDBService tmdbService;
 
-    private Map<String, String> pelicula = new HashMap<>();
-
+    private DetallePelicula pelicula;
 
     @PostConstruct
     protected void init() {
@@ -39,15 +37,12 @@ public class DetallesPelisModel {
         }
     }
     public boolean isEncontrada(){
-        return pelicula.containsKey("title");
+        return pelicula != null;
     }
 
-    public String getTitulo(){
-        return pelicula.get("title");
-    }
 
-    public String getPoster(){
-        return pelicula.get("poster_path");
+    public DetallePelicula getPelicula(){
+        return pelicula;
     }
 }
 

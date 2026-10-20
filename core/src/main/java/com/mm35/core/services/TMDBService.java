@@ -1,5 +1,7 @@
 package com.mm35.core.services;
 
+import com.mm35.core.beans.DetallePelicula;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,6 @@ public interface TMDBService {
     List<Map<String, String>> peliculasRecientes();
     List<Map<String, String>> peliculasValoradas();
     List<Map<String, String>> buscarPeliculas(String query);
-    Map<String,String> detallePelicula( String id);
+    DetallePelicula detallePelicula(String id);
 }
 
