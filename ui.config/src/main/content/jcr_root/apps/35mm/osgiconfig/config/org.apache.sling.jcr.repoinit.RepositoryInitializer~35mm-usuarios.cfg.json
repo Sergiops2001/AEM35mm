@@ -1,0 +1,8 @@
+{
+    "scripts": [
+        "create path (rep:AuthorizableFolder) /home/users/35mm",
+        "create group 35mm-usuarios with path /home/groups/35mm",
+        "create service user 35mm-registro-service with path system/35mm",
+        "set ACL for 35mm-registro-service\n    allow jcr:read,rep:write,rep:userManagement on /home/users/35mm\n    allow jcr:read,rep:write,rep:userManagement on /home/groups/35mm\nend"
+    ]
+}

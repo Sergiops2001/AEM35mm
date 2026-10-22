@@ -1,0 +1,5 @@
+{
+  "user.mapping": [
+    "35mm.core:registro-usuarios=[35mm-registro-service]"
+  ]
+}

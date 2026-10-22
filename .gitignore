@@ -109,12 +109,13 @@ dispatcher/src/conf.d/variables/default.vars
 ### 35mm: ficheros privados ###
 
 # Config OSGi con el token de TMDB
-ui.config/src/main/content/jcr_root/apps/35mm/osgiconfig/config.author/com.mm35.core.services.impl.TMDBServiceImpl.cfg.json
+ui.config/src/main/content/jcr_root/apps/35mm/osgiconfig/config/com.mm35.core.services.impl.TMDBServiceImpl.cfg.json
 
 ### 35mm OSGi con el token de Groq
 
-ui.config/src/main/content/jcr_root/apps/35mm/osgiconfig/config.author/com.mm35.core.services.impl.GroqServiceImpl.cfg.json
+ui.config/src/main/content/jcr_root/apps/35mm/osgiconfig/config/com.mm35.core.services.impl.GroqServiceImpl.cfg.json
 
 # Claude Code
 CLAUDE.md
 .claude/
+GUIA-LOGIN-FAVORITOS.md

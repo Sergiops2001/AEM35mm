@@ -4,7 +4,7 @@ function buscadorPelis() {
     const nombreAEnviar = (input.value) ? input.value.trim() : "";
     if(!nombreAEnviar) return; // si no hay busqueda actual volver
 
-    const servletResource = $(".component-buscadorPelis").data("current-resource");
+    const servletResource = $(".component-registro").data("current-resource");
 
     var settings = {
         url: servletResource + ".ejecutar-buscador-pelis.json",

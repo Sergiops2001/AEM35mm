@@ -1,2 +1,2 @@
 #base=css
-buscadorPelis.css
+registro.css
