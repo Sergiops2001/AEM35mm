@@ -1,0 +1,22 @@
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+    data-sly-call="${clientlib.css @ categories='35mm.components.login'}" />
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+     data-sly-call="${clientlib.js @ categories='35mm.components.login'}" />
+<div class="component-login" data-login-url="${resource.path}/j_security_check">
+    <form class="login-formulario" id="login-formulario">
+        <h2 class="login-title">Iniciar sesión</h2>
+        <label class="login-label" for="login-usuario">Usuario</label>
+        <input class="login-input" type="text" id="login-usuario" name="j_username" autocomplete="username" required>
+
+        <label class="login-label" for="login-password">Contraseña</label>
+        <input class="login-input" type="password" id="login-password" name="j_password" autocomplete="current-password"
+                required>
+
+        <button class="login-boton" type="submit" id="login-boton">Entrar</button>
+        <p class="login-mensaje" id="login-mensaje" role="status"></p>
+
+        <p class="login-pie">¿No tienes cuenta?
+        <a href="/content/35mm/us/en/registro.html">Crea una cuenta</a>
+        </p>
+    </form>
+</div>

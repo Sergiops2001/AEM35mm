@@ -1,12 +1,12 @@
 <sly
     data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
-    data-sly-call="${clientlib.css @ categories='35mm.components.registro'}" />
+    data-sly-call="${clientlib.css @ categories='35mm.components.buscadorPelis'}" />
 <sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
-     data-sly-call="${clientlib.js @ categories='35mm.components.registro'}" />
+     data-sly-call="${clientlib.js @ categories='35mm.components.buscadorPelis'}" />
 <div class="component-buscadorPelis" data-current-resource="${resource.path}">
     <div class="buscador-pelis">
         <input type="text" id="pelisInput" placeholder="Introduce el nombre de la pelicula">
-        <button id="buscarPeli" onclick="registro()" type="button">Buscar</button>
+        <button id="buscarPeli" onclick="buscadorPelis()" type="button">Buscar</button>
     </div>
     <div class="resultados-container" id="resultadosPelis">
     </div>
