@@ -144,6 +144,7 @@ public class TMDBServiceImpl implements TMDBService {
     private DetallePelicula extraerCamposPeliculaDetalles(JsonObject pelicula ) {
         DetallePelicula detallesPelicula  = new DetallePelicula();
         detallesPelicula.setTitulo(leerTexto(pelicula, "title"));
+        detallesPelicula.setId(leerTexto(pelicula, "id"));
         detallesPelicula.setLema(leerTexto(pelicula, "tagline"));
         detallesPelicula.setSinopsis(leerTexto(pelicula, "overview"));
         // fecha formateada

@@ -5,6 +5,7 @@ import java.util.List;
 
 public class DetallePelicula {
     private String titulo;
+    private String id;
     private String anio;
     private String sinopsis;
     private String lema;
@@ -23,6 +24,14 @@ public class DetallePelicula {
 
     public void setTitulo(String title) {
         this.titulo = title;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public List<Persona> getReparto() {

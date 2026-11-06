@@ -183,6 +183,64 @@
     color: #777777;
 }
 
+/* ── Favorito: pastilla con corazon (el estado lo pone detallesPelis.js) ── */
+.detalle-favorito {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 8px 18px;
+    font: inherit;          /* los botones no heredan la fuente por defecto */
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* El display de arriba anularia el atributo hidden: sin esto se veria antes de saber el estado */
+.detalle-favorito[hidden] {
+    display: none;
+}
+
+.detalle-favorito:hover,
+.detalle-favorito:focus-visible {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgb(229, 9, 20);
+    outline: none;
+}
+
+/* Mientras viaja el POST */
+.detalle-favorito:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* Corazon vacio: solo el contorno, del color del texto */
+.detalle-favorito-icono {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    transition: fill 0.2s ease, stroke 0.2s ease, transform 0.2s ease;
+}
+
+/* Favorita: corazon relleno en rojo de marca y borde a juego */
+.detalle-favorito.is-favorito {
+    border-color: rgba(229, 9, 20, 0.6);
+}
+
+.detalle-favorito.is-favorito .detalle-favorito-icono {
+    fill: rgb(229, 9, 20);
+    stroke: rgb(229, 9, 20);
+    transform: scale(1.1);
+}
+
 /* Generos: pastillas */
 .detalle-generos {
     display: flex;
